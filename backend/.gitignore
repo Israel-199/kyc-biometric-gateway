@@ -1,0 +1,101 @@
+# =========================
+# Go
+# =========================
+
+# Compiled binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Build output
+/bin/
+/build/
+/dist/
+/tmp/
+
+# Go coverage
+coverage.out
+coverage.html
+*.coverprofile
+
+# Go workspace
+go.work
+go.work.sum
+
+# =========================
+# Environment & Secrets
+# =========================
+
+.env
+.env.*
+!.env.example
+
+# =========================
+# IDE / Editors
+# =========================
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# JetBrains / GoLand
+.idea/
+*.iml
+
+# Vim
+*.swp
+*.swo
+
+# =========================
+# OS
+# =========================
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+
+# Linux
+*~
+
+# =========================
+# Logs
+# =========================
+
+*.log
+logs/
+
+# =========================
+# Temporary files
+# =========================
+
+*.tmp
+*.temp
+.tmp/
+temp/
+
+# =========================
+# Air - Live Reload
+# =========================
+
+.air.toml
+
+# =========================
+# Database files
+# =========================
+
+*.sqlite
+*.sqlite3
+*.db
+
+# =========================
+# Generated files
+# =========================
+
+/generated/
