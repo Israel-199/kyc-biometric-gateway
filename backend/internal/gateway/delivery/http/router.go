@@ -1,6 +1,7 @@
 package http
 
 import (
+	"github.com/cbe/kyc-biometric-gateway/internal/gateway/usecase"
 	"github.com/cbe/kyc-biometric-gateway/internal/platform/config"
 	"github.com/cbe/kyc-biometric-gateway/internal/platform/metrics"
 	"github.com/cbe/kyc-biometric-gateway/internal/platform/middleware"
@@ -9,7 +10,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/redis/go-redis/v9"
-	"github.com/valyala/valyalafasthttp/fasthttpadaptor"
+	"github.com/valyala/fasthttp/fasthttpadaptor"
 )
 
 func SetupRouter(app *fiber.App, cfg *config.Config, handler *GatewayHandler, rdb *redis.Client) {
@@ -23,7 +24,10 @@ func SetupRouter(app *fiber.App, cfg *config.Config, handler *GatewayHandler, rd
 	app.Use(metrics.PrometheusMiddleware())
 
 	app.Get("/health", handler.HealthCheck)
-	app.Get("/metrics", fiberHandler(promhttp.Handler()))
+	app.Get("/metrics", func(c *fiber.Ctx) error {
+		fasthttpadaptor.NewFastHTTPHandler(promhttp.Handler())(c.Context())
+		return nil
+	})
 
 	v1 := app.Group("/api/v1")
 	v1.Post("/auth/login", handler.Login)
@@ -35,11 +39,4 @@ func SetupRouter(app *fiber.App, cfg *config.Config, handler *GatewayHandler, rd
 	protected.Post("/onboarding/full", handler.ProcessFullOnboarding)
 	protected.All("/kyc/*", handler.ProxyToKYC)
 	protected.All("/biometric/*", handler.ProxyToBiometric)
-}
-
-func fiberHandler(h func(ctx fasthttpadaptor.RequestCtx)) fiber.Handler {
-	return func(c *fiber.Ctx) error {
-		fasthttpadaptor.NewFastHTTPHandler(promhttp.Handler())(c.Context())
-		return nil
-	}
 }
