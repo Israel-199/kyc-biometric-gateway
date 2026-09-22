@@ -1,7 +1,6 @@
 package http
 
 import (
-	"github.com/cbe/kyc-biometric-gateway/internal/gateway/usecase"
 	"github.com/cbe/kyc-biometric-gateway/internal/platform/config"
 	"github.com/cbe/kyc-biometric-gateway/internal/platform/metrics"
 	"github.com/cbe/kyc-biometric-gateway/internal/platform/middleware"
